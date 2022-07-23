@@ -1,11 +1,13 @@
 import { Router } from "express";
 import { authMiddleware } from "../middlewares/authMiddleware.js";
-import { newUserController } from "../controllers/authController.js";
-import newUserSchema from "../utils/authSchemas.js";
+import { newUserController, signInController } from "../controllers/authController.js";
+import userSchema from "../utils/schemas/authSchemas.js";
+
+const { newUserSchema, loginSchema } = userSchema
 
 const authRoute = Router();
 
 authRoute.post('/sign-up', authMiddleware(newUserSchema), newUserController);
-authRoute.post('/sign-in', )
+authRoute.post('/sign-in', authMiddleware(loginSchema),signInController)
 
 export default authRoute;

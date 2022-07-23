@@ -10,5 +10,5 @@ export function authMiddleware(schema: ObjectSchema) {
         }
 
         next();
-      };
+    };
 }
