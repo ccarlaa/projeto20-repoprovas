@@ -4,14 +4,14 @@
   "description": "",
   "main": "index.js",
   "type": "module",
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "scripts": {
     "build": "tsc src/server.ts",
     "start": "node src/server.js",
     "dev": "nodemon src/server.ts",
-    "test": "dotenv -e .env.test prisma migrate dev && cross-env NODE_OPTIONS=--experimental-vm-modules dotenv -e .env.test jest -i"
-  },
-  "prisma": {
-    "seed": "ts-node prisma/seed.ts"
+    "test": "dotenv -e .env.test prisma migrate dev && prisma db seed && cross-env NODE_OPTIONS=--experimental-vm-modules dotenv -e .env.test jest --runInBand"
   },
   "author": "",
   "license": "ISC",

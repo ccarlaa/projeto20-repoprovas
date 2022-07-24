@@ -1,6 +1,6 @@
 import joi from "joi";
-import { newUserInterface } from "../authServices";
-import { newUser } from "../../repositories/authRepository";
+import { newUserInterface } from "../utils/authServices";
+import { newUser } from "../repositories/authRepository.js";
 
 const newUserSchema = joi.object<newUserInterface>({
   email: joi.string().email().required(),

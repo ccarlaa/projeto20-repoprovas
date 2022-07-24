@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 import app from '../src/app.js';
 import userFactory from './factories/userFactory.js';
 import prisma from '../database.js';
+import testFactory from './factories/testFactory.js';
 
 beforeEach(async () => {
     await prisma.$executeRaw`TRUNCATE TABLE "Sessions"`;
@@ -41,27 +42,102 @@ describe("User tests suite", () => {
       })
 
     it("given valid email and password, receive token", async () => {
-    const login = userFactory.createLogin();
-    const user: any = await userFactory.createUser(login);
-    
-    const response = await supertest(app).post(`/sign-in`).send({
-        email: user.email,
-        password: user.plainPassword
-    });
+        const login = userFactory.createLogin();
+        const user: any = await userFactory.createUser(login);
+        
+        const response = await supertest(app).post(`/sign-in`).send({
+            email: user.email,
+            password: user.plainPassword
+        });
 
-    const token = response.body.token;
-    expect(token).not.toBeNull();
+        const token: string = response.text;
+
+        expect(token).not.toBeNull();
     });
 
     it("given invalid password, receive 401", async () => {
-    const login = userFactory.createLogin();
-    const user = userFactory.createUser(login);
-    delete login.passwordConfirmation
+        const login = userFactory.createLogin();
+        const user: any = await userFactory.createUser(login);
+        delete login.passwordConfirmation
 
-    const response = await supertest(app).post(`/sign-in`).send({...login, password: "wrong_password"});
-    expect(response.status).toBe(401);
-    })
+        const response = await supertest(app).post(`/sign-in`).send({...login, password: "wrong_password"});
+        expect(response.status).toBe(401);
+
+    }) 
 });
+
+describe("Create new tests", () => {
+    it("returns 201 for valid params", async() => {
+        await prisma.teachersDisciplines.create({
+            data: {
+            teacherId: 1,
+            disciplineId : 1
+            }
+        });
+
+        const login = userFactory.createLogin();
+        const user: any = await userFactory.createUser(login);
+        
+        const response = await supertest(app).post(`/sign-in`).send({
+            email: user.email,
+            password: user.plainPassword
+        });
+
+        const token: string = response.text;
+
+        const test = testFactory.createTest();
+
+        const result = await supertest(app).post("/new-test").set('Authorization', `Bearer ${token}`).send(test);
+        const status = result.status;
+        expect(status).toEqual(200);
+    });
+
+    it("returns 401 for invalid token", async() => {
+        const test = testFactory.createTest();
+
+        const result = await supertest(app).post("/new-test").set('Authorization', `Bearer invalid_token`).send(test);
+
+        const status = result.status;
+        expect(status).toEqual(401);
+    });
+
+    it("returns 404 for invalid relation of categoryId", async() => {
+        const login = userFactory.createLogin();
+        const user: any = await userFactory.createUser(login);
+        
+        const response = await supertest(app).post(`/sign-in`).send({
+            email: user.email,
+            password: user.plainPassword
+        });
+
+        const token: string = response.text;
+
+        const test = testFactory.createTest();
+
+        const result = await supertest(app).post("/new-test").set('Authorization', `Bearer ${token}`).send({...test, categoryId: 1000});
+        const status = result.status;
+        expect(status).toEqual(404);
+    });
+
+    it("returns 404 for invalid relation of teacherDisciplineId", async() => {
+        const login = userFactory.createLogin();
+        const user: any = await userFactory.createUser(login);
+        
+        const response = await supertest(app).post(`/sign-in`).send({
+            email: user.email,
+            password: user.plainPassword
+        });
+
+        const token: string = response.text;
+
+        const test = testFactory.createTest();
+
+        const result = await supertest(app).post("/new-test").set('Authorization', `Bearer ${token}`).send({...test, teacherDisciplineId: 1000});
+        const status = result.status;
+        expect(status).toEqual(404);
+    });
+});
+
 
 afterAll(async () => {
     await prisma.$disconnect();

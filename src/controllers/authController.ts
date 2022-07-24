@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 import { newUserService, signInService } from '../services/authService.js';
 import { creatSession } from '../repositories/sessionRepository.js';
 import { insert } from '../repositories/authRepository.js';

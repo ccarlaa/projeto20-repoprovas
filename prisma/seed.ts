@@ -1,20 +1,41 @@
-import bcrypt from "bcrypt";
 
 import prisma from "../database.js"
 
-// create admin user
 async function main(){
-  const SALT = 10;
-  const hashedPassword = bcrypt.hashSync("admin", SALT);
 
-  await prisma.users.upsert({
-    where: { email: "admin@gmail.com" },
+  await prisma.disciplines.upsert({
+    where: { name: 'HTML e CSS' },
     update: {},
     create: {
-      email: "admin@gmail.com",
-      password: hashedPassword
+      name: 'HTML e CSS',
+      termId : 1
     }
   });
+  
+  await prisma.terms.upsert({
+    where: { number: 1 },
+    update: {},
+    create: {
+      number: 1
+    }
+  });
+
+  await prisma.categories.upsert({
+    where: { name: 'Projeto' },
+    update: {},
+    create: {
+      name: 'Projeto'
+    }
+  });
+
+  await prisma.teachers.upsert({
+    where: { name: 'Diego Pinho' },
+    update: {},
+    create: {
+      name: 'Diego Pinho'
+    }
+  });
+
 }
 
 main().catch(e => {
