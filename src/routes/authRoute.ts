@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { authMiddleware } from "../middlewares/authMiddleware.js";
 import { newUserController, signInController } from "../controllers/authController.js";
-import userSchema from "../utils/schemas/authSchemas.js";
+import userSchema from "../schemas/authSchemas.js";
 
 const { newUserSchema, loginSchema } = userSchema
 

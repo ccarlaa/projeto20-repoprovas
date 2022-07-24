@@ -1,5 +1,5 @@
 import { newUser, verifyEmail } from "../repositories/authRepository.js";
-import { newSession } from "../repositories/sessionRepository.js";
+import { session } from "../repositories/sessionRepository.js";
 import { encrypt, verifyPassword } from "../utils/bcrypt.js";
 import { tokenGenerator } from "../utils/tokenGenerator.js";
 
@@ -31,7 +31,7 @@ export async function signInService(email: string, password: string) {
     const userId = validateEmail.id;
     const token = tokenGenerator(userId, email);
 
-    const session : newSession = {
+    const session : session = {
         userId,
         token
     };

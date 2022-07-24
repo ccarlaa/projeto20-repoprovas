@@ -1,9 +1,9 @@
 import prisma from "../../database.js";
 import { Sessions } from "@prisma/client";
 
-export type newSession = Omit<Sessions, "id" >
+export type session = Omit<Sessions, "id" >
 
-export async function creatSession(session: newSession) {
+export async function creatSession(session: session) {
     await prisma.sessions.create({data: session});
 }
 

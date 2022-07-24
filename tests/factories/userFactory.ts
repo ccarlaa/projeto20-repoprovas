@@ -13,7 +13,6 @@ function createLogin(email = "teste@driven.com", passwordLength = 5) {
   }
 }
 
-
 interface Login {email: string, password: string};
 
 async function createUser(login: Login) {
