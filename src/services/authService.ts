@@ -14,7 +14,7 @@ export async function newUserService(email: string, password: string) {
     const user : newUser = {
         email,
         password: passwordEncrypted
-    }
+    };
     
     return user;
 }

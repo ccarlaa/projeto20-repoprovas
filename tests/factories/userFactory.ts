@@ -8,8 +8,7 @@ function createLogin(email = "teste@driven.com", passwordLength = 5) {
   const password = faker.internet.password(passwordLength)
   return {
     email,
-    password,
-    passwordConfirmation: password
+    password
   }
 }
 

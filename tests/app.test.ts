@@ -58,7 +58,6 @@ describe("User tests suite", () => {
     it("given invalid password, receive 401", async () => {
         const login = userFactory.createLogin();
         const user: any = await userFactory.createUser(login);
-        delete login.passwordConfirmation
 
         const response = await supertest(app).post(`/sign-in`).send({...login, password: "wrong_password"});
         expect(response.status).toBe(401);
@@ -89,7 +88,7 @@ describe("Create new tests", () => {
 
         const result = await supertest(app).post("/new-test").set('Authorization', `Bearer ${token}`).send(test);
         const status = result.status;
-        expect(status).toEqual(200);
+        expect(status).toEqual(201);
     });
 
     it("returns 401 for invalid token", async() => {
@@ -138,6 +137,58 @@ describe("Create new tests", () => {
     });
 });
 
+
+describe("Get tests by discipline", () => {
+    it("returns 200 for valid params", async() => {
+        const login = userFactory.createLogin();
+        const user: any = await userFactory.createUser(login);
+        
+        const response = await supertest(app).post(`/sign-in`).send({
+            email: user.email,
+            password: user.plainPassword
+        });
+
+        const token: string = response.text;
+
+        const result = await supertest(app).post('/tests/disciplines').set('Authorization', `Bearer ${token}`);
+        const status = result.status;
+        expect(status).toEqual(200);
+    });
+
+    it("returns 401 for invalid token", async() => {
+
+        const result = await supertest(app).post("/tests/disciplines").set('Authorization', `Bearer invalid_token`);
+
+        const status = result.status;
+        expect(status).toEqual(401);
+    });
+});
+
+describe("Get tests by teacher", () => {
+    it("returns 200 for valid params", async() => {
+        const login = userFactory.createLogin();
+        const user: any = await userFactory.createUser(login);
+        
+        const response = await supertest(app).post(`/sign-in`).send({
+            email: user.email,
+            password: user.plainPassword
+        });
+
+        const token: string = response.text;
+
+        const result = await supertest(app).post('/tests/teachers').set('Authorization', `Bearer ${token}`);
+        const status = result.status;
+        expect(status).toEqual(200);
+    });
+
+    it("returns 401 for invalid token", async() => {
+
+        const result = await supertest(app).post("/tests/teachers").set('Authorization', `Bearer invalid_token`);
+
+        const status = result.status;
+        expect(status).toEqual(401);
+    });
+});
 
 afterAll(async () => {
     await prisma.$disconnect();

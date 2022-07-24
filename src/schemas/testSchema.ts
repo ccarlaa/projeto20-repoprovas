@@ -10,6 +10,6 @@ const newTestSchema = joi.object<test>({
 
 const testSchema = {
   newTestSchema,
-}
+};
 
 export default testSchema;

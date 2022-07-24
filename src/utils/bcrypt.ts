@@ -1,10 +1,10 @@
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcrypt';
 
 const hash: number = 10;
 
 export function encrypt(word: string) {
     const wordHash = bcrypt.hashSync(word, hash);
-    return wordHash
+    return wordHash;
 }
 
 export function verifyPassword(password: string, passwordEncrypted: string) {

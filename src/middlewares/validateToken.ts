@@ -8,7 +8,7 @@ dotenv.config();
 export async function validateToken(req: Request, res: Response, next: NextFunction) {
     const authorization = req.headers.authorization;
     const token = authorization?.replace("Bearer ", "").trim(); 
-    let error: Error
+    let error: Error;
     const secretKey = process.env.SECRET_KEY;
     if(!token) {
         return res.status(401).send("Token not send");
@@ -16,7 +16,7 @@ export async function validateToken(req: Request, res: Response, next: NextFunct
 
     jwt.verify(token, secretKey,function(err) {
         if(err) {
-            error = err
+            error = err;
         }
     })
     if(error) {

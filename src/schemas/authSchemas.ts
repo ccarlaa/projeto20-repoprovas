@@ -1,11 +1,9 @@
 import joi from "joi";
-import { newUserInterface } from "../utils/authServices";
 import { newUser } from "../repositories/authRepository.js";
 
-const newUserSchema = joi.object<newUserInterface>({
+const newUserSchema = joi.object<newUser>({
   email: joi.string().email().required(),
-  password: joi.string().pattern(/^[0-9a-zA-Z$*&_/@#]{4,}$/).required(),
-  passwordConfirmation: joi.string().valid(joi.ref('password')).label('passwords don\'t match').required()
+  password: joi.string().pattern(/^[0-9a-zA-Z$*&_/@#]{4,}$/).required()
 });
 
 const loginSchema = joi.object<newUser>({
@@ -16,6 +14,6 @@ const loginSchema = joi.object<newUser>({
 const userSchema = {
   newUserSchema,
   loginSchema
-}
+};
 
 export default userSchema;

@@ -9,5 +9,5 @@ app.listen(port, () => {
     console.log(`|-----------------------------------|`)
     console.log(`| Running at http://localhost:${port}  |`)
     console.log(`|-----------------------------------|`)
-})
+});
  

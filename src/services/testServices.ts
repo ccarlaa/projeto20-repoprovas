@@ -1,8 +1,6 @@
 import { verifyCategory } from "../repositories/categoryRepository.js";
 import { verifyTeacherDiscipline } from "../repositories/teacherDisciplineRepository.js";
 import { test } from "../repositories/testRepository.js";
-import { encrypt } from "../utils/bcrypt.js";
-
 
 export async function newTestService( 
 name: string, 
