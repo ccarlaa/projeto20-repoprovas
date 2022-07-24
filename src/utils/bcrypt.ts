@@ -9,6 +9,6 @@ export function encrypt(word: string) {
 
 export function verifyPassword(password: string, passwordEncrypted: string) {
     if(!bcrypt.compareSync(password, passwordEncrypted)) {
-        throw { status: 404, message: "Wrong password" };
+        throw { status: 401, message: "Wrong password" };
     }
-}
+} 
