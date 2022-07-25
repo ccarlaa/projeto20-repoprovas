@@ -1,0 +1,11 @@
+"use strict";
+exports.__esModule = true;
+var express_1 = require("express");
+require("express-async-errors");
+var index_js_1 = require("./routes/index.js");
+var handErros_js_1 = require("./middlewares/handErros.js");
+var app = (0, express_1["default"])();
+app.use((0, express_1.json)());
+app.use(index_js_1["default"]);
+app.use(handErros_js_1["default"]);
+exports["default"] = app;

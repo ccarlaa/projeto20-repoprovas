@@ -1,0 +1,13 @@
+"use strict";
+exports.__esModule = true;
+var express_1 = require("express");
+var validateToken_js_1 = require("../middlewares/validateToken.js");
+var testMiddleware_js_1 = require("../middlewares/testMiddleware.js");
+var testSchema_js_1 = require("../schemas/testSchema.js");
+var testController_js_1 = require("../controllers/testController.js");
+var newTestSchema = testSchema_js_1["default"].newTestSchema;
+var testRoute = (0, express_1.Router)();
+testRoute.post('/new-test', validateToken_js_1.validateToken, (0, testMiddleware_js_1.testMiddleware)(newTestSchema), testController_js_1.newTestController);
+testRoute.get('/tests/disciplines', validateToken_js_1.validateToken, testController_js_1.getTestsByDisciplineController);
+testRoute.get('/tests/teachers', validateToken_js_1.validateToken, testController_js_1.getTestsByTeacherController);
+exports["default"] = testRoute;
