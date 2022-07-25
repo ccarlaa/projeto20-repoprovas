@@ -150,14 +150,14 @@ describe("Get tests by discipline", () => {
 
         const token: string = response.text;
 
-        const result = await supertest(app).post('/tests/disciplines').set('Authorization', `Bearer ${token}`);
+        const result = await supertest(app).get('/tests/disciplines').set('Authorization', `Bearer ${token}`);
         const status = result.status;
         expect(status).toEqual(200);
     });
 
     it("returns 401 for invalid token", async() => {
 
-        const result = await supertest(app).post("/tests/disciplines").set('Authorization', `Bearer invalid_token`);
+        const result = await supertest(app).get("/tests/disciplines").set('Authorization', `Bearer invalid_token`);
 
         const status = result.status;
         expect(status).toEqual(401);
@@ -176,14 +176,14 @@ describe("Get tests by teacher", () => {
 
         const token: string = response.text;
 
-        const result = await supertest(app).post('/tests/teachers').set('Authorization', `Bearer ${token}`);
+        const result = await supertest(app).get('/tests/teachers').set('Authorization', `Bearer ${token}`);
         const status = result.status;
         expect(status).toEqual(200);
     });
 
     it("returns 401 for invalid token", async() => {
 
-        const result = await supertest(app).post("/tests/teachers").set('Authorization', `Bearer invalid_token`);
+        const result = await supertest(app).get("/tests/teachers").set('Authorization', `Bearer invalid_token`);
 
         const status = result.status;
         expect(status).toEqual(401);

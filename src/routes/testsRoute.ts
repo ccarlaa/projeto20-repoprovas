@@ -9,7 +9,7 @@ const { newTestSchema } = testSchema;
 const testRoute = Router();
 
 testRoute.post('/new-test', validateToken, testMiddleware(newTestSchema), newTestController);
-testRoute.post('/tests/disciplines', validateToken, getTestsByDisciplineController);
-testRoute.post('/tests/teachers', validateToken, getTestsByTeacherController);
+testRoute.get('/tests/disciplines', validateToken, getTestsByDisciplineController);
+testRoute.get('/tests/teachers', validateToken, getTestsByTeacherController);
 
 export default testRoute;
