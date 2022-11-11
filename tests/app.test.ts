@@ -88,6 +88,7 @@ describe("Create new tests", () => {
 
         const result = await supertest(app).post("/new-test").set('Authorization', `Bearer ${token}`).send(test);
         const status = result.status;
+        console.log(status)
         expect(status).toEqual(201);
     });
 
